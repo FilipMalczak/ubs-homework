@@ -1,6 +1,6 @@
 # ubs-homework
 
-## Requirements:
+## Requirements: (almost raw copy from the email, see raw README file for better formatting)
 
 Design and implement supermarket checkout component with readable API that 
 calculates the total price of a number of items.
@@ -24,6 +24,11 @@ Our goods are priced individually. In addition, some items are multi-priced:
 >    D        25
 
 ## Assumptions
+
+The required component is just called ["Checkout"](/src/main/java/com/github/ubs/fm/Checkout.java) as the requirements
+lack any information that would be needed to name it better.
+
+Scanning happens one item at a time - e.g. when we have more than 3 unit of some items, we call onScan(...) method 3 times.
 
 Each price (total price included) can be represented as simple int.
 
