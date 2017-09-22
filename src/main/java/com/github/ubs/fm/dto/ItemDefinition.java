@@ -1,4 +1,4 @@
-package com.github.ubs.fm;
+package com.github.ubs.fm.dto;
 
 import lombok.Builder;
 import lombok.Singular;

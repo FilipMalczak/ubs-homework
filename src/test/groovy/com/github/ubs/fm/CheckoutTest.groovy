@@ -1,17 +1,40 @@
 package com.github.ubs.fm
 
+import com.github.ubs.fm.dto.ItemDefinition
+import com.github.ubs.fm.dto.ItemPricing
 import spock.lang.Specification
 
 class CheckoutTest extends Specification {
     Checkout checkout;
 
     void setup() {
-        //todo: instantiate checkout implementation
+        checkout = new StandardCheckout(
+            [
+                ItemDefinition.builder().
+                    name("A").
+                    price(new ItemPricing(1, 40)).
+                    price(new ItemPricing(3, 70)).
+                    build(),
+                ItemDefinition.builder().
+                    name("B").
+                    price(new ItemPricing(1, 10)).
+                    price(new ItemPricing(2, 15)).
+                    build(),
+                ItemDefinition.builder().
+                    name("C").
+                    price(new ItemPricing(1, 30)).
+                    build(),
+                ItemDefinition.builder().
+                    name("D").
+                    price(new ItemPricing(1, 30)).
+                    build()
+            ]
+        )
     }
 
     void "No items cost 0"(){
-        when:
-        then:
+        given:
+        expect:
             checkout.totalPrice == 0
     }
 
@@ -37,18 +60,18 @@ class CheckoutTest extends Specification {
                 checkout.onScan("A");
             }
         then:
-        checkout.totalPrice == 110
+            checkout.totalPrice == 110
     }
 
     void "B and D cost 35"(){
         when:
-            checkout.onScan("A");
+            checkout.onScan("B");
             checkout.onScan("D");
         then:
-            checkout.totalPrice == 35
+            checkout.totalPrice == 40
     }
 
-    void "2 B and 2 C cost 85"(){
+    void "2 B and 2 C cost 75"(){
         when:
             2.times {
                 checkout.onScan("B")
@@ -57,7 +80,7 @@ class CheckoutTest extends Specification {
                 checkout.onScan("D")
             }
         then:
-            checkout.totalPrice == 85
+            checkout.totalPrice == 75
     }
 
     void "order doesnt matter"(){
@@ -67,6 +90,9 @@ class CheckoutTest extends Specification {
                 checkout.onScan("D")
             }
         then:
-            checkout.totalPrice == 85
+            checkout.totalPrice == 75
     }
+
+    //todo: constructor tests
+    //todo: unknown items test
 }
